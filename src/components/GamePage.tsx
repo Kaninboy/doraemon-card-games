@@ -7,14 +7,11 @@ import {
   loadGameState, 
   createInitialGameState, 
   drawCard,
-  getCardRule
+  getCardRule,
+  clearGameState
 } from '../utils/gameState';
 
-interface GamePageProps {
-  onRestart: () => void;
-}
-
-export function GamePage({ onRestart }: GamePageProps) {
+export function GamePage() {
   const [gameState, setGameState] = useState<GameState>(() => {
     const saved = loadGameState();
     return saved || createInitialGameState();
@@ -31,16 +28,12 @@ export function GamePage({ onRestart }: GamePageProps) {
     setGameState(newState);
   };
 
-  const handleResetGame = () => {
-    const newState = createInitialGameState();
-    setGameState(newState);
-  };
-
-  const handleBackToStart = () => {
-    const newState = createInitialGameState();
-    setGameState(newState);
-    onRestart();
-  };
+const handleResetGame = () => {
+  clearGameState();  // Clear old state
+  const newState = createInitialGameState();
+  saveGameState(newState);  // Immediately save new state
+  setGameState(newState);
+};
 
   const { currentCard, deck, kingsDrawn, isGameOver } = gameState;
   const cardsRemaining = deck.length;
@@ -104,8 +97,8 @@ export function GamePage({ onRestart }: GamePageProps) {
             <button className="btn btn-primary btn-large" onClick={handleResetGame}>
               Play Again
             </button>
-          ) : (
-            <button className="btn btn-secondary" onClick={handleBackToStart}>
+          ) : currentCard && (
+            <button className="btn btn-secondary" onClick={handleResetGame}>
               Restart Game
             </button>
           )}

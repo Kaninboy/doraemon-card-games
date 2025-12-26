@@ -11,17 +11,13 @@ function App() {
     setCurrentPage('game');
   };
 
-  const handleRestart = () => {
-    setCurrentPage('start');
-  };
-
   return (
     <ThemeProvider>
       {currentPage === 'start' && (
         <StartPage onStartGame={handleStartGame} />
       )}
       {currentPage === 'game' && (
-        <GamePage onRestart={handleRestart} />
+        <GamePage />
       )}
     </ThemeProvider>
   );
