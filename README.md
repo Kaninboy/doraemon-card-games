@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# 🎴 Doraemon Card Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fun drinking card game built with React, TypeScript, and Vite. Draw cards from a 52-card deck and follow the rules for each card!
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-19.2-blue?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-7.2-purple?logo=vite)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## React Compiler
+- 🎨 **Responsive Design** - Works on mobile, tablet, and desktop
+- 🌓 **Dark/Light Mode** - Toggle between themes with preference saved
+- 💾 **Progress Persistence** - Game state saved to localStorage (survives page refresh)
+- 👑 **Special King Rules** - 4 unique rules based on the order Kings are drawn
+- 🎲 **Random Card Draw** - Draw cards randomly from a standard 52-card deck
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🎮 Play the game
 
-## Expanding the ESLint configuration
+Go to the [website](https://doraemon-cards.vercel.app/) and start the game!!!
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js 18+ 
+- npm or yarn
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Kaninboy/doraemon-card-games.git
+
+# Navigate to project directory
+cd doraemon-card-games
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Build for Production
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
 ```
+
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+## 🛠️ Tech Stack
+
+- **React 19** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool & dev server
+- **CSS** - Theming
+
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 🙏 Acknowledgments
+
+- Built with ❤️ for fun party games
+- Inspired by classic drinking card games
+
+---
+
+**⚠️ Please drink responsibly!**
