@@ -1,10 +1,14 @@
-# CLAUDE.md — Doraemon Card Game
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
 A React + TypeScript + Vite web app for a Doraemon-themed drinking card game. Players draw cards from a standard 52-card deck and follow the rule shown for each card. The game is card-only (no player tracking). Kings have a special 4-step challenge system based on draw order (1st–4th King each has a different rule).
 
 **Tech stack:** React 19, TypeScript 5.9, Vite 7, pure CSS with CSS variables, localStorage for persistence. No backend, no authentication.
+
+---
 
 ## Commands
 
