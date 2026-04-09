@@ -56,7 +56,7 @@ export const translations = {
     gameTitle:        'เกมไพ่โดเรม่อน',
     startGame:        'เริ่มเกม',
     rules:            'กติกา',
-    drawCard:         'ไพ่',
+    drawCard:         'เปิดไพ่',
     drawNextCard:     'เปิดไพ่ถัดไป',
     restartGame:      'เริ่มเกมใหม่',
     playAgain:        'เล่นอีกครั้ง',
