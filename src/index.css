@@ -98,11 +98,15 @@ body {
   background: none;
   border: 2px solid var(--text-color);
   border-radius: 8px;
-  padding: 0.25rem 0.5rem;
+  width: 44px;
+  height: 44px;
   color: var(--text-color);
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.2s, border-color 0.3s;
 }
 

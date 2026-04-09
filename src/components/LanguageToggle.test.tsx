@@ -36,3 +36,12 @@ test('toggles language on click', async () => {
   await user.click(screen.getByRole('button'))
   expect(screen.getByRole('button')).toHaveTextContent('EN')
 })
+
+test('renders with language-toggle class', () => {
+  render(
+    <LanguageProvider>
+      <LanguageToggle />
+    </LanguageProvider>
+  )
+  expect(screen.getByRole('button')).toHaveClass('language-toggle')
+})
