@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { ThemeToggle } from './ThemeToggle';
+import { LanguageToggle } from './LanguageToggle';
 import { RulesModal } from './RulesModal';
+import { useLanguage } from '../context/useLanguage';
+import { translations } from '../i18n/translations';
 
 interface StartPageProps {
   onStartGame: () => void;
@@ -8,21 +11,26 @@ interface StartPageProps {
 
 export function StartPage({ onStartGame }: StartPageProps) {
   const [showRules, setShowRules] = useState(false);
+  const { language } = useLanguage();
+  const t = translations[language];
 
   return (
     <div className="page start-page">
-      <ThemeToggle className="theme-toggle-corner" />
+      <div className="controls-corner">
+        <LanguageToggle />
+        <ThemeToggle />
+      </div>
       <div className="start-content">
-        <h1 className="game-title">Doraemon Card Game</h1>
-        <button 
+        <h1 className="game-title">{t.gameTitle}</h1>
+        <button
           className="btn btn-primary btn-large"
           onClick={() => setShowRules(true)}
         >
-          Start
+          {t.startGame}
         </button>
       </div>
       {showRules && (
-        <RulesModal 
+        <RulesModal
           onClose={() => setShowRules(false)}
           onStartGame={onStartGame}
         />
