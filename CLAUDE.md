@@ -68,23 +68,6 @@ src/
 - **Approved:** `lucide-react` — use for all icons (replacing emoji-based icons like the current theme toggle)
 - **Forbidden patterns:** No Tailwind, no CSS-in-JS, no component libraries (MUI, Chakra, etc.), no i18n libraries, no animation libraries
 
-## Feature Guide: Thai Language Support
-
-Add English/Thai language toggle following the existing ThemeContext pattern:
-
-1. Create `src/i18n/translations.ts` with a translations object:
-   ```ts
-   export const translations = {
-     en: { drawCard: "Draw Card", cardsRemaining: "Cards remaining", ... },
-     th: { drawCard: "จั่วไพ่", cardsRemaining: "ไพ่ที่เหลือ", ... }
-   }
-   ```
-2. Create `src/context/LanguageContextDef.ts`, `LanguageContext.tsx`, `useLanguage.ts` — mirror the ThemeContext structure exactly
-3. Store language preference in localStorage (key: `doraemon-card-game-language`)
-4. Add a language toggle (EN/TH) near the theme toggle
-5. Card rules (`cardRules`, `kingRules`) need Thai versions — extend the translations object to include them
-6. Wrap the app with `LanguageProvider` alongside `ThemeProvider` in `App.tsx`
-
 ## Feature Guide: UX Redesign
 
 ### Task List
