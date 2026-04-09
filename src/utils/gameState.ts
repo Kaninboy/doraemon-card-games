@@ -1,5 +1,4 @@
-import type { GameState, Card } from '../types';
-import { cardRules, kingRules } from '../types';
+import type { GameState } from '../types';
 import { createDeck, shuffleDeck } from './deck';
 
 const STORAGE_KEY = 'doraemon-card-game-state';
@@ -53,13 +52,4 @@ export function drawCard(state: GameState): GameState {
     kingsDrawn: newKingsDrawn,
     isGameOver
   };
-}
-
-export function getCardRule(card: Card, kingsDrawn: number): string {
-  if (card.rank === 'K') {
-    // kingsDrawn is already incremented when this is called, so use kingsDrawn - 1 for 0-based index
-    return kingRules[kingsDrawn - 1] || '';
-  }
-  
-  return cardRules[card.rank] || '';
 }
