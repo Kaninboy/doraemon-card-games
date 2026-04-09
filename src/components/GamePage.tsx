@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
 import { ThemeToggle } from './ThemeToggle';
+import { LanguageToggle } from './LanguageToggle';
 import { CardDisplay } from './CardDisplay';
 import type { GameState } from '../types';
-import { 
-  saveGameState, 
-  loadGameState, 
-  createInitialGameState, 
+import {
+  saveGameState,
+  loadGameState,
+  createInitialGameState,
   drawCard,
-  getCardRule,
   clearGameState
 } from '../utils/gameState';
+import { useLanguage } from '../context/useLanguage';
+import { translations } from '../i18n/translations';
 
 export function GamePage() {
   const [gameState, setGameState] = useState<GameState>(() => {
@@ -17,7 +19,9 @@ export function GamePage() {
     return saved || createInitialGameState();
   });
 
-  // Save game state whenever it changes
+  const { language } = useLanguage();
+  const t = translations[language];
+
   useEffect(() => {
     saveGameState(gameState);
   }, [gameState]);
@@ -28,36 +32,42 @@ export function GamePage() {
     setGameState(newState);
   };
 
-const handleResetGame = () => {
-  clearGameState();  // Clear old state
-  const newState = createInitialGameState();
-  saveGameState(newState);  // Immediately save new state
-  setGameState(newState);
-};
+  const handleResetGame = () => {
+    clearGameState();
+    const newState = createInitialGameState();
+    saveGameState(newState);
+    setGameState(newState);
+  };
 
   const { currentCard, deck, kingsDrawn, isGameOver } = gameState;
   const cardsRemaining = deck.length;
 
-  // Get the rule for the current card
-  const currentRule = currentCard ? getCardRule(currentCard, kingsDrawn) : '';
+  const currentRule = currentCard
+    ? currentCard.rank === 'K'
+      ? t.kingRules[kingsDrawn - 1] ?? ''
+      : t.cardRules[currentCard.rank]
+    : '';
 
   return (
     <div className="page game-page">
-      <ThemeToggle className="theme-toggle-corner" />
-      
+      <div className="controls-corner">
+        <LanguageToggle />
+        <ThemeToggle />
+      </div>
+
       <div className="game-header">
-        <h1 className="game-title-small">Doraemon Card Game</h1>
+        <h1 className="game-title-small">{t.gameTitle}</h1>
         <div className="cards-remaining">
-          Cards remaining: {cardsRemaining}
+          {t.cardsRemaining}: {cardsRemaining}
         </div>
       </div>
 
       <div className="game-content">
         {!currentCard && !isGameOver && (
           <div className="game-start">
-            <p className="game-instruction">Click the button to draw your first card!</p>
+            <p className="game-instruction">{t.clickToDrawFirst}</p>
             <button className="btn btn-primary btn-large" onClick={handleDrawCard}>
-              Draw Card
+              {t.drawCard}
             </button>
           </div>
         )}
@@ -65,15 +75,15 @@ const handleResetGame = () => {
         {currentCard && (
           <div className="card-section">
             <CardDisplay card={currentCard} />
-            
+
             <div className="card-rule">
               <h3 className="rule-title">
-                {currentCard.rank === 'K' 
-                  ? `Card: K #${kingsDrawn}` 
-                  : `Card: ${currentCard.rank}`}
+                {currentCard.rank === 'K'
+                  ? `${t.card}: ${t.king} #${kingsDrawn}`
+                  : `${t.card}: ${currentCard.rank}`}
               </h3>
               <p className="rule-text">
-                {currentRule || 'Rule will be added here...'}
+                {currentRule || ''}
               </p>
             </div>
           </div>
@@ -81,25 +91,25 @@ const handleResetGame = () => {
 
         {isGameOver && (
           <div className="game-over">
-            <h2 className="game-over-title">Game Over!</h2>
-            <p className="game-over-text">All cards have been drawn.</p>
+            <h2 className="game-over-title">{t.gameOver}</h2>
+            <p className="game-over-text">{t.allCardsDrawn}</p>
           </div>
         )}
 
         <div className="game-buttons">
           {!isGameOver && currentCard && (
             <button className="btn btn-primary" onClick={handleDrawCard}>
-              Draw Next Card
+              {t.drawNextCard}
             </button>
           )}
-          
+
           {isGameOver ? (
             <button className="btn btn-primary btn-large" onClick={handleResetGame}>
-              Play Again
+              {t.playAgain}
             </button>
           ) : currentCard && (
             <button className="btn btn-secondary" onClick={handleResetGame}>
-              Restart Game
+              {t.restartGame}
             </button>
           )}
         </div>
