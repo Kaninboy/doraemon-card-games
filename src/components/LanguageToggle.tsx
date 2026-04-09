@@ -1,3 +1,4 @@
+import { Globe } from 'lucide-react';
 import { useLanguage } from '../context/useLanguage';
 
 export function LanguageToggle() {
@@ -9,6 +10,7 @@ export function LanguageToggle() {
       onClick={toggleLanguage}
       aria-label={`Switch to ${language === 'en' ? 'Thai' : 'English'}`}
     >
+      <Globe size={14} />
       {language === 'en' ? 'TH' : 'EN'}
     </button>
   );
