@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { StartPage } from './components/StartPage';
 import { GamePage } from './components/GamePage';
 import type { Page } from './types';
@@ -13,12 +14,14 @@ function App() {
 
   return (
     <ThemeProvider>
-      {currentPage === 'start' && (
-        <StartPage onStartGame={handleStartGame} />
-      )}
-      {currentPage === 'game' && (
-        <GamePage />
-      )}
+      <LanguageProvider>
+        {currentPage === 'start' && (
+          <StartPage onStartGame={handleStartGame} />
+        )}
+        {currentPage === 'game' && (
+          <GamePage />
+        )}
+      </LanguageProvider>
     </ThemeProvider>
   );
 }
