@@ -10,7 +10,7 @@ export function LanguageToggle() {
       onClick={toggleLanguage}
       aria-label={`Switch to ${language === 'en' ? 'Thai' : 'English'}`}
     >
-      <Globe size={14} />
+      <Globe size={20} />
       {language === 'en' ? 'TH' : 'EN'}
     </button>
   );
