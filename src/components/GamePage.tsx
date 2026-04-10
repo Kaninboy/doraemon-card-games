@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BookOpen } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
 import { CardDisplay } from './CardDisplay';
@@ -61,7 +62,8 @@ export function GamePage() {
         <h1 className="game-title-small">{t.gameTitle}</h1>
         <div className="game-header-row">
           <button className="rules-btn" onClick={() => setShowRules(true)}>
-            📖 {t.rules}
+            <BookOpen size={14} color="var(--accent-color)" strokeWidth={2.5} />
+            {t.rules}
           </button>
           <div className="cards-remaining">
             {t.cardsRemaining}: {cardsRemaining}

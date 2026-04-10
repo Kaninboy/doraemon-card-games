@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BookOpen } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
 import { RulesModal } from './RulesModal';
@@ -32,7 +33,8 @@ export function StartPage({ onStartGame }: StartPageProps) {
           {t.startGame}
         </button>
         <button className="btn btn-secondary" onClick={() => setShowRules(true)}>
-          📖 {t.rules}
+          <BookOpen size={18} color="var(--accent-color)" strokeWidth={2.5} />
+          {t.rules}
         </button>
       </div>
       {showRules && (
