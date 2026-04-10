@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Font Review — เกมไพ่วงเหล้า v1.2</title>
+
+  <!-- Display fonts (Latin) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Lilita+One&family=Bungee&family=Righteous&family=Passion+One:wght@700;900&family=Paytone+One&family=Syne:wght@700;800&family=Big+Shoulders+Display:wght@700;900&family=Abril+Fatface&family=Permanent+Marker&family=Chonburi&family=Chakra+Petch:wght@700&display=swap" rel="stylesheet" />
+
+  <!-- Body fonts (with Thai support) -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;600;700&family=Prompt:wght@400;600;700&family=Kanit:wght@400;500;600&family=Mitr:wght@400;500;600&family=Itim&family=Bai+Jamjuree:wght@400;500;600&family=Sarabun:wght@400;500;600&family=Pridi:wght@400;500;600&family=Krub:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #1a1a1a;
+      --surface2: #242424;
+      --text: #ffffff;
+      --muted: #888888;
+      --amber: #F5A623;
+      --amber-light: #FFD580;
+      --amber-dark: #C4841D;
+      --section-display: #1e160a;
+      --section-body: #0a111e;
+      --tag-display: #F5A623;
+      --tag-body: #4a9eff;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--amber);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 3rem;
+      line-height: 1.6;
+    }
+
+    .page-subtitle code {
+      background: var(--surface);
+      color: var(--amber);
+      padding: 0.1em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    /* Section headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #333;
+    }
+
+    .section-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.3em 0.8em;
+      border-radius: 99px;
+    }
+
+    .tag-display { background: var(--amber); color: #000; }
+    .tag-body    { background: var(--tag-body); color: #fff; }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .section-note {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: right;
+      line-height: 1.4;
+    }
+
+    /* Font grid */
+    .font-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .font-card {
+      background: var(--surface);
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .font-card:hover {
+      border-color: var(--amber);
+      box-shadow: 0 0 24px rgba(245, 166, 35, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .font-card.selected-display {
+      border-color: var(--amber);
+      box-shadow: 0 0 0 2px var(--amber), 0 0 24px rgba(245, 166, 35, 0.25);
+    }
+
+    .font-card.selected-body {
+      border-color: var(--tag-body);
+      box-shadow: 0 0 0 2px var(--tag-body), 0 0 24px rgba(74, 158, 255, 0.25);
+    }
+
+    .selected-badge {
+      display: none;
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2em 0.6em;
+      border-radius: 99px;
+    }
+
+    .selected-display .selected-badge { display: block; background: var(--amber); color: #000; }
+    .selected-body .selected-badge    { display: block; background: var(--tag-body); color: #fff; }
+
+    .font-meta {
+      margin-bottom: 1rem;
+    }
+
+    .font-name-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .font-family-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .font-origin {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    .font-preview {
+      padding-top: 1rem;
+      border-top: 1px solid #2a2a2a;
+    }
+
+    .preview-en {
+      font-size: 2.2rem;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .preview-th {
+      font-size: 1.6rem;
+      line-height: 1.3;
+      color: var(--amber-light);
+      margin-bottom: 1rem;
+    }
+
+    .preview-sample {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .preview-sample-th {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Thai support badge */
+    .thai-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.15em 0.5em;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .thai-yes  { background: rgba(74, 158, 255, 0.15); color: #4a9eff; border: 1px solid rgba(74, 158, 255, 0.3); }
+    .thai-no   { background: rgba(255, 100, 100, 0.1); color: #ff8080; border: 1px solid rgba(255, 80, 80, 0.2); }
+
+    /* Divider */
+    .section-divider {
+      margin: 1rem 0 3rem;
+      height: 1px;
+      background: linear-gradient(to right, var(--amber), transparent);
+    }
+
+    /* Selection summary */
+    #selection-summary {
+      position: sticky;
+      bottom: 1.5rem;
+      background: var(--surface2);
+      border: 1px solid var(--amber);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    #selection-summary .summary-label {
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    #selection-summary .summary-value {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .summary-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 0.4rem;
+    }
+
+    .dot-display { background: var(--amber); }
+    .dot-body    { background: var(--tag-body); }
+
+    .summary-none { color: var(--muted); font-style: italic; }
+
+    /* Instructions */
+    .instructions {
+      background: var(--surface2);
+      border-left: 3px solid var(--amber);
+      border-radius: 4px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .instructions strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <h1 class="page-title">🍺 Font Review</h1>
+  <p class="page-subtitle">
+    Choose <code>1 display font</code> for titles &amp; headings and <code>1 body font</code> for rules, labels, and UI text.<br />
+    Click a card to select it. Your selection appears in the sticky bar at the bottom.
+  </p>
+
+  <div class="instructions">
+    <strong>How to choose:</strong> Consider how the font feels at both large (title) and small (rule text) sizes.
+    Body fonts must render Thai well — cards marked <span class="thai-badge thai-yes">Thai ✓</span> are verified to support Thai script.
+    Display fonts are mainly for the game title (EN version) — Thai body font will handle Thai title rendering.
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!--  SECTION 1: DISPLAY FONTS              -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <span class="section-tag tag-display">Section 1</span>
+    <span class="section-title">Display Fonts — Titles &amp; Headings</span>
+    <span class="section-note">Used for game title, "Game Over", headings<br/>EN text only — pair with a Thai body font for Thai titles</span>
+  </div>
+
+  <div class="font-grid" id="display-grid">
+
+    <!-- Fredoka One -->
+    <div class="font-card" data-type="display" data-font="Fredoka One" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Fredoka One <span class="thai-badge thai-no">No Thai</span></div>
+        <div class="font-origin">Rounded, friendly, playful — great for party games</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Fredoka One',cursive;">Drinking Cards 🍺</div>
+        <div class="preview-sample" style="font-family:'Fredoka One',cursive;">Game Over · Draw A Card · Rules · Start Game</div>
+      </div>
+    </div>
+
+    <!-- Lilita One -->
+    <div class="font-card" data-type="display" data-font="Lilita One" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Lilita One <span class="thai-badge thai-no">No Thai</span></div>
+        <div class="font-origin">Bold, chunky, high impact — like a poster headline</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Lilita One',cursive;">Drinking Cards 🍺</div>
+        <div class="preview-sample" style="font-family:'Lilita One',cursive;">Game Over · Draw A Card · Rules · Start Game</div>
+      </div>
+    </div>
+
+    <!-- Bungee -->
+    <div class="font-card" data-type="display" data-font="Bungee" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Bungee <span class="thai-badge thai-no">No Thai</span></div>
+        <div class="font-origin">Urban/street, all-caps energy — arcade game vibes</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Bungee',cursive;">Drinking Cards 🍺</div>
+        <div class="preview-sample" style="font-family:'Bungee',cursive;">Game Over · Draw A Card · Rules</div>
+      </div>
+    </div>
+
+    <!-- Righteous -->
+    <div class="font-card" data-type="display" data-font="Righteous" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Righteous <span class="thai-badge thai-no">No Thai</span></div>
+        <div class="font-origin">Retro-modern, geometric — bold yet approachable</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Righteous',cursive;">Drinking Cards 🍺</div>
+        <div class="preview-sample" style="font-family:'Righteous',cursive;">Game Over · Draw A Card · Rules · Start Game</div>
+      </div>
+    </div>
+
+    <!-- Passion One -->
+    <div class="font-card" data-type="display" data-font="Passion One" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Passion One <span class="thai-badge thai-no">No Thai</span></div>
+        <div class="font-origin">Compressed, editorial — punchy at large sizes</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Passion One',cursive;font-weight:900;">Drinking Cards 🍺</div>
+        <div class="preview-sample" style="font-family:'Passion One',cursive;font-weight:700;">Game Over · Draw A Card · Rules · Start Game</div>
+      </div>
+    </div>
+
+    <!-- Paytone One -->
+    <div class="font-card" data-type="display" data-font="Paytone One" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Paytone One <span class="thai-badge thai-no">No Thai</span></div>
+        <div class="font-origin">Bold, approachable, slightly retro — fun without being loud</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Paytone One',sans-serif;">Drinking Cards 🍺</div>
+        <div class="preview-sample" style="font-family:'Paytone One',sans-serif;">Game Over · Draw A Card · Rules · Start Game</div>
+      </div>
+    </div>
+
+    <!-- Syne ExtraBold -->
+    <div class="font-card" data-type="display" data-font="Syne" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Syne ExtraBold <span class="thai-badge thai-no">No Thai</span></div>
+        <div class="font-origin">Contemporary editorial, tight spacing — grown-up party</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Syne',sans-serif;font-weight:800;">Drinking Cards 🍺</div>
+        <div class="preview-sample" style="font-family:'Syne',sans-serif;font-weight:700;">Game Over · Draw A Card · Rules · Start Game</div>
+      </div>
+    </div>
+
+    <!-- Big Shoulders Display -->
+    <div class="font-card" data-type="display" data-font="Big Shoulders Display" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Big Shoulders Display <span class="thai-badge thai-no">No Thai</span></div>
+        <div class="font-origin">Tall, condensed, industrial — high drama at large sizes</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Big Shoulders Display',cursive;font-weight:900;">Drinking Cards 🍺</div>
+        <div class="preview-sample" style="font-family:'Big Shoulders Display',cursive;font-weight:700;">Game Over · Draw A Card · Rules · Start Game</div>
+      </div>
+    </div>
+
+    <!-- Abril Fatface -->
+    <div class="font-card" data-type="display" data-font="Abril Fatface" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Abril Fatface <span class="thai-badge thai-no">No Thai</span></div>
+        <div class="font-origin">High-contrast serif, old poster style — classy drinking game</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Abril Fatface',cursive;">Drinking Cards 🍺</div>
+        <div class="preview-sample" style="font-family:'Abril Fatface',cursive;">Game Over · Draw A Card · Rules · Start Game</div>
+      </div>
+    </div>
+
+    <!-- Permanent Marker -->
+    <div class="font-card" data-type="display" data-font="Permanent Marker" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Permanent Marker <span class="thai-badge thai-no">No Thai</span></div>
+        <div class="font-origin">Handwritten marker — DIY house party energy</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Permanent Marker',cursive;">Drinking Cards 🍺</div>
+        <div class="preview-sample" style="font-family:'Permanent Marker',cursive;">Game Over · Draw A Card · Rules</div>
+      </div>
+    </div>
+
+    <!-- Chonburi (Thai display) -->
+    <div class="font-card" data-type="display" data-font="Chonburi" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Chonburi <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Bold Thai display font — works for BOTH EN &amp; TH titles</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Chonburi',cursive;">Drinking Cards 🍺</div>
+        <div class="preview-th" style="font-family:'Chonburi',cursive;">เกมไพ่วงเหล้า</div>
+        <div class="preview-sample" style="font-family:'Chonburi',cursive;">Game Over · Draw A Card · Rules</div>
+        <div class="preview-sample-th" style="font-family:'Chonburi',cursive;">จั่วไพ่ · ทำตามกติกา · แล้วดื่ม</div>
+      </div>
+    </div>
+
+    <!-- Chakra Petch -->
+    <div class="font-card" data-type="display" data-font="Chakra Petch" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Chakra Petch <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Futuristic/tech feel with Thai support — edgy, modern party</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Chakra Petch',sans-serif;font-weight:700;">Drinking Cards 🍺</div>
+        <div class="preview-th" style="font-family:'Chakra Petch',sans-serif;font-weight:700;">เกมไพ่วงเหล้า</div>
+        <div class="preview-sample" style="font-family:'Chakra Petch',sans-serif;font-weight:700;">Game Over · Draw A Card · Rules</div>
+        <div class="preview-sample-th" style="font-family:'Chakra Petch',sans-serif;">จั่วไพ่ · ทำตามกติกา · แล้วดื่ม</div>
+      </div>
+    </div>
+
+  </div><!-- /display-grid -->
+
+  <div class="section-divider"></div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!--  SECTION 2: BODY FONTS                 -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <span class="section-tag tag-body">Section 2</span>
+    <span class="section-title">Body Fonts — Rules, Labels, UI Text</span>
+    <span class="section-note">All body fonts below support Thai script<br/>Used for card rules, subtitles, buttons, modal text</span>
+  </div>
+
+  <div class="font-grid" id="body-grid">
+
+    <!-- Nunito -->
+    <div class="font-card" data-type="body" data-font="Nunito" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Nunito <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Rounded sans-serif — warm, friendly, very readable</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:700;">Drink 2 shots 🍺</div>
+        <div class="preview-th" style="font-family:'Nunito',sans-serif;font-size:1.2rem;">ดื่ม 2 ช็อต</div>
+        <div class="preview-sample" style="font-family:'Nunito',sans-serif;">Everyone who has done this before must drink. The last person to drink gives out 3 sips.</div>
+        <div class="preview-sample-th" style="font-family:'Nunito',sans-serif;">ทุกคนที่เคยทำสิ่งนี้มาก่อนต้องดื่ม คนสุดท้ายที่ดื่มต้องแจก 3 ซิป</div>
+      </div>
+    </div>
+
+    <!-- Quicksand -->
+    <div class="font-card" data-type="body" data-font="Quicksand" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Quicksand <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Clean geometric rounds — modern, airy, easy to scan</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Quicksand',sans-serif;font-size:1.4rem;font-weight:700;">Drink 2 shots 🍺</div>
+        <div class="preview-th" style="font-family:'Quicksand',sans-serif;font-size:1.2rem;">ดื่ม 2 ช็อต</div>
+        <div class="preview-sample" style="font-family:'Quicksand',sans-serif;">Everyone who has done this before must drink. The last person to drink gives out 3 sips.</div>
+        <div class="preview-sample-th" style="font-family:'Quicksand',sans-serif;">ทุกคนที่เคยทำสิ่งนี้มาก่อนต้องดื่ม คนสุดท้ายที่ดื่มต้องแจก 3 ซิป</div>
+      </div>
+    </div>
+
+    <!-- Kanit -->
+    <div class="font-card" data-type="body" data-font="Kanit" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Kanit <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Most popular Thai web font — condensed, very legible at all sizes</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Kanit',sans-serif;font-size:1.4rem;font-weight:600;">Drink 2 shots 🍺</div>
+        <div class="preview-th" style="font-family:'Kanit',sans-serif;font-size:1.2rem;">ดื่ม 2 ช็อต</div>
+        <div class="preview-sample" style="font-family:'Kanit',sans-serif;">Everyone who has done this before must drink. The last person to drink gives out 3 sips.</div>
+        <div class="preview-sample-th" style="font-family:'Kanit',sans-serif;">ทุกคนที่เคยทำสิ่งนี้มาก่อนต้องดื่ม คนสุดท้ายที่ดื่มต้องแจก 3 ซิป</div>
+      </div>
+    </div>
+
+    <!-- Prompt -->
+    <div class="font-card" data-type="body" data-font="Prompt" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Prompt <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Modern Thai + Latin — slightly geometric, clean and versatile</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Prompt',sans-serif;font-size:1.4rem;font-weight:600;">Drink 2 shots 🍺</div>
+        <div class="preview-th" style="font-family:'Prompt',sans-serif;font-size:1.2rem;">ดื่ม 2 ช็อต</div>
+        <div class="preview-sample" style="font-family:'Prompt',sans-serif;">Everyone who has done this before must drink. The last person to drink gives out 3 sips.</div>
+        <div class="preview-sample-th" style="font-family:'Prompt',sans-serif;">ทุกคนที่เคยทำสิ่งนี้มาก่อนต้องดื่ม คนสุดท้ายที่ดื่มต้องแจก 3 ซิป</div>
+      </div>
+    </div>
+
+    <!-- Mitr -->
+    <div class="font-card" data-type="body" data-font="Mitr" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Mitr <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Rounded, compact, friendly — Thai characters look especially good</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Mitr',sans-serif;font-size:1.4rem;font-weight:600;">Drink 2 shots 🍺</div>
+        <div class="preview-th" style="font-family:'Mitr',sans-serif;font-size:1.2rem;">ดื่ม 2 ช็อต</div>
+        <div class="preview-sample" style="font-family:'Mitr',sans-serif;">Everyone who has done this before must drink. The last person to drink gives out 3 sips.</div>
+        <div class="preview-sample-th" style="font-family:'Mitr',sans-serif;">ทุกคนที่เคยทำสิ่งนี้มาก่อนต้องดื่ม คนสุดท้ายที่ดื่มต้องแจก 3 ซิป</div>
+      </div>
+    </div>
+
+    <!-- Itim -->
+    <div class="font-card" data-type="body" data-font="Itim" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Itim <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Handwritten-casual style — playful, informal, party-appropriate</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Itim',cursive;font-size:1.4rem;">Drink 2 shots 🍺</div>
+        <div class="preview-th" style="font-family:'Itim',cursive;font-size:1.2rem;">ดื่ม 2 ช็อต</div>
+        <div class="preview-sample" style="font-family:'Itim',cursive;">Everyone who has done this before must drink. The last person to drink gives out 3 sips.</div>
+        <div class="preview-sample-th" style="font-family:'Itim',cursive;">ทุกคนที่เคยทำสิ่งนี้มาก่อนต้องดื่ม คนสุดท้ายที่ดื่มต้องแจก 3 ซิป</div>
+      </div>
+    </div>
+
+    <!-- Bai Jamjuree -->
+    <div class="font-card" data-type="body" data-font="Bai Jamjuree" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Bai Jamjuree <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Clean, modern, slightly techy — crisp at small sizes</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Bai Jamjuree',sans-serif;font-size:1.4rem;font-weight:600;">Drink 2 shots 🍺</div>
+        <div class="preview-th" style="font-family:'Bai Jamjuree',sans-serif;font-size:1.2rem;">ดื่ม 2 ช็อต</div>
+        <div class="preview-sample" style="font-family:'Bai Jamjuree',sans-serif;">Everyone who has done this before must drink. The last person to drink gives out 3 sips.</div>
+        <div class="preview-sample-th" style="font-family:'Bai Jamjuree',sans-serif;">ทุกคนที่เคยทำสิ่งนี้มาก่อนต้องดื่ม คนสุดท้ายที่ดื่มต้องแจก 3 ซิป</div>
+      </div>
+    </div>
+
+    <!-- Sarabun -->
+    <div class="font-card" data-type="body" data-font="Sarabun" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Sarabun <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Humanist, editorial — excellent readability for longer rule text</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Sarabun',sans-serif;font-size:1.4rem;font-weight:600;">Drink 2 shots 🍺</div>
+        <div class="preview-th" style="font-family:'Sarabun',sans-serif;font-size:1.2rem;">ดื่ม 2 ช็อต</div>
+        <div class="preview-sample" style="font-family:'Sarabun',sans-serif;">Everyone who has done this before must drink. The last person to drink gives out 3 sips.</div>
+        <div class="preview-sample-th" style="font-family:'Sarabun',sans-serif;">ทุกคนที่เคยทำสิ่งนี้มาก่อนต้องดื่ม คนสุดท้ายที่ดื่มต้องแจก 3 ซิป</div>
+      </div>
+    </div>
+
+    <!-- Krub -->
+    <div class="font-card" data-type="body" data-font="Krub" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Krub <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Compact, even stroke weight — excellent for dense UI text and Thai</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Krub',sans-serif;font-size:1.4rem;font-weight:600;">Drink 2 shots 🍺</div>
+        <div class="preview-th" style="font-family:'Krub',sans-serif;font-size:1.2rem;">ดื่ม 2 ช็อต</div>
+        <div class="preview-sample" style="font-family:'Krub',sans-serif;">Everyone who has done this before must drink. The last person to drink gives out 3 sips.</div>
+        <div class="preview-sample-th" style="font-family:'Krub',sans-serif;">ทุกคนที่เคยทำสิ่งนี้มาก่อนต้องดื่ม คนสุดท้ายที่ดื่มต้องแจก 3 ซิป</div>
+      </div>
+    </div>
+
+    <!-- Pridi -->
+    <div class="font-card" data-type="body" data-font="Pridi" onclick="selectFont(this)">
+      <div class="selected-badge">✓ Selected</div>
+      <div class="font-meta">
+        <div class="font-name-label">Font family</div>
+        <div class="font-family-name">Pridi <span class="thai-badge thai-yes">Thai ✓</span></div>
+        <div class="font-origin">Slightly serif — gives rule text a printed card / menu feel</div>
+      </div>
+      <div class="font-preview">
+        <div class="preview-en" style="font-family:'Pridi',serif;font-size:1.4rem;font-weight:600;">Drink 2 shots 🍺</div>
+        <div class="preview-th" style="font-family:'Pridi',serif;font-size:1.2rem;">ดื่ม 2 ช็อต</div>
+        <div class="preview-sample" style="font-family:'Pridi',serif;">Everyone who has done this before must drink. The last person to drink gives out 3 sips.</div>
+        <div class="preview-sample-th" style="font-family:'Pridi',serif;">ทุกคนที่เคยทำสิ่งนี้มาก่อนต้องดื่ม คนสุดท้ายที่ดื่มต้องแจก 3 ซิป</div>
+      </div>
+    </div>
+
+  </div><!-- /body-grid -->
+
+  <!-- Selection summary bar -->
+  <div id="selection-summary">
+    <div class="summary-item">
+      <span class="summary-label"><span class="summary-dot dot-display"></span>Display Font</span>
+      <span class="summary-value" id="summary-display"><span class="summary-none">none selected</span></span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label"><span class="summary-dot dot-body"></span>Body Font</span>
+      <span class="summary-value" id="summary-body"><span class="summary-none">none selected</span></span>
+    </div>
+    <div style="margin-left:auto;color:var(--muted);font-size:0.8rem;">
+      Tell Claude Code your choices to proceed with implementation.
+    </div>
+  </div>
+
+  <script>
+    const selectedFonts = { display: null, body: null };
+
+    function selectFont(card) {
+      const type = card.dataset.type;
+      const font = card.dataset.font;
+
+      // Deselect previous
+      document.querySelectorAll(`.font-card.selected-${type}`).forEach(c => {
+        c.classList.remove(`selected-${type}`);
+      });
+
+      // If clicking the already-selected card, deselect
+      if (selectedFonts[type] === font) {
+        selectedFonts[type] = null;
+        document.getElementById(`summary-${type}`).innerHTML = '<span class="summary-none">none selected</span>';
+        return;
+      }
+
+      // Select new
+      card.classList.add(`selected-${type}`);
+      selectedFonts[type] = font;
+      document.getElementById(`summary-${type}`).textContent = font;
+    }
+  </script>
+</body>
+</html>
