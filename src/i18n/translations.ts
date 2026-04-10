@@ -4,6 +4,7 @@ export const translations = {
   en: {
     // UI
     gameTitle:        'Doraemon Card Game',
+    subtitle:         'Draw a card. Follow the rule. Drink up!',
     startGame:        'Start Game',
     rules:            'Rules',
     drawCard:         'Draw Card',
@@ -54,6 +55,7 @@ export const translations = {
   th: {
     // UI
     gameTitle:        'เกมไพ่โดเรม่อน',
+    subtitle:         'จั่วไพ่แล้วดื่ม!',
     startGame:        'เริ่มเกม',
     rules:            'กติกา',
     drawCard:         'เปิดไพ่',

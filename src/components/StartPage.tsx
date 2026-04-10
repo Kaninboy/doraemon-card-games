@@ -21,18 +21,24 @@ export function StartPage({ onStartGame }: StartPageProps) {
         <ThemeToggle />
       </div>
       <div className="start-content">
-        <h1 className="game-title">{t.gameTitle}</h1>
-        <button
-          className="btn btn-primary btn-large"
-          onClick={() => setShowRules(true)}
-        >
+        <h1 className="game-title">🍺 {t.gameTitle} 🍺</h1>
+        <p className="game-subtitle">{t.subtitle}</p>
+        <div className="card-stack-wrapper">
+          <div className="card-stack-card"><span className="card-stack-icon">🍺</span></div>
+          <div className="card-stack-card"><span className="card-stack-icon">🍺</span></div>
+          <div className="card-stack-card"><span className="card-stack-icon">🍺</span></div>
+        </div>
+        <button className="btn btn-primary btn-large" onClick={onStartGame}>
           {t.startGame}
+        </button>
+        <button className="btn btn-secondary" onClick={() => setShowRules(true)}>
+          📖 {t.rules}
         </button>
       </div>
       {showRules && (
         <RulesModal
           onClose={() => setShowRules(false)}
-          onStartGame={onStartGame}
+          showStartButton={false}
         />
       )}
     </div>

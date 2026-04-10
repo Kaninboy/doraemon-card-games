@@ -4,10 +4,11 @@ import { translations } from '../i18n/translations';
 
 interface RulesModalProps {
   onClose: () => void;
-  onStartGame: () => void;
+  onStartGame?: () => void;
+  showStartButton?: boolean;
 }
 
-export function RulesModal({ onClose, onStartGame }: RulesModalProps) {
+export function RulesModal({ onClose, onStartGame, showStartButton = false }: RulesModalProps) {
   const { language } = useLanguage();
   const t = translations[language];
 
@@ -50,9 +51,11 @@ export function RulesModal({ onClose, onStartGame }: RulesModalProps) {
             </ul>
           </div>
         </div>
-        <button className="btn btn-primary" onClick={onStartGame}>
-          {t.startGame}
-        </button>
+        {showStartButton && onStartGame && (
+          <button className="btn btn-primary" onClick={onStartGame}>
+            {t.startGame}
+          </button>
+        )}
       </div>
     </div>
   );
