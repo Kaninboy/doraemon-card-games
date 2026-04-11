@@ -74,6 +74,11 @@ export function GamePage() {
       <div className="game-content">
         {!currentCard && !isGameOver && (
           <div className="game-start fade-in-up">
+            <div className="card-back-static" onClick={handleDrawCard}>
+              <div className="card-back-corner card-back-corner-tl">♠︎<br />♥︎</div>
+              <span className="card-back-icon">🍺</span>
+              <div className="card-back-corner card-back-corner-br">♣︎<br />♦︎</div>
+            </div>
             <p className="game-instruction">{t.clickToDrawFirst}</p>
             <button className="btn btn-primary btn-large" onClick={handleDrawCard}>
               {t.drawCard}
