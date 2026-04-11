@@ -61,7 +61,7 @@ src/
 - **CSS variables:** Defined in `index.css` using `[data-theme="light"]` and `[data-theme="dark"]` selectors. Variables include `--bg-color`, `--text-color`, `--card-bg`, `--button-bg`, `--button-hover`, `--modal-bg`, `--shadow-color`, `--border-color`, `--badge-bg`, `--badge-text`.
 - **Page navigation:** App.tsx uses `useState<'start' | 'game'>` — no router.
 - **Translations:** All UI strings and card rules live in `src/i18n/translations.ts`. Components read the current locale with `const { language } = useLanguage(); const t = translations[language];` then use `t.someKey`, `t.cardRules[rank]`, `t.kingRules[kingsDrawn - 1]`. No wrapper function needed.
-- **Icons:** Use `lucide-react` for all icons. Current usage: `Sun`, `Moon` (ThemeToggle), `Globe` (LanguageToggle) — all at `size={20}`.
+- **Icons:** Use `lucide-react` for all icons. Current usage: `Sun`, `Moon` (ThemeToggle), `Globe` (LanguageToggle), `BookOpen` (rules button in GamePage & StartPage) — all at `size={20}`.
 
 ## Coding Conventions
 
@@ -78,36 +78,3 @@ src/
 - **Installed:** `lucide-react` — use for all icons
 - **Forbidden patterns:** No Tailwind, no CSS-in-JS, no component libraries (MUI, Chakra, etc.), no i18n libraries, no animation libraries
 
-## Feature Guide: UX Redesign
-
-### Task List
-- Add deck illustration to Start Page
-- Add short subtitle on the Start Page
-- Move rules to a secondary button on the Start Page
-- Add a rules button to show RulesModal on the Game Page
-- Click "Start Game" goes to Game Page immediately (no modal first)
-- Fix button being shorter than rule box on mobile Game Page
-
-### Design Principles
-- **Mobile-first:** Game is primarily played on phones — min 44px tap targets, optimize spacing and font sizes for small screens
-- **Game-like feel:** Bold, fun, not minimal/corporate. CardDisplay should feel like a real playing card (better typography, proportions, suit rendering)
-- **Rule display:** Visually prominent, easy to read at a glance — large text, strong contrast
-- **Animations:** CSS-only card flip/reveal animation on draw — no animation libraries
-- **Buttons:** Tactile, game-appropriate styling
-- **Theming:** Extend existing CSS variables (`--bg-color`, etc.) — don't replace them. Maintain full dark/light mode support.
-- **Responsive:** Ensure everything works across mobile, tablet, and desktop breakpoints
-
-## Key Files Reference
-
-| File | What it contains |
-|------|-----------------|
-| `src/i18n/translations.ts` | All EN + TH strings — UI labels, card rules, king rules, modal text |
-| `src/types/index.ts` | Card, GameState, Rank, Suit, Page types |
-| `src/index.css` | ALL styles including CSS variables, responsive breakpoints |
-| `src/utils/gameState.ts` | Game logic: draw, save/load state |
-| `src/utils/deck.ts` | Deck creation, shuffle, suit helpers |
-| `src/App.tsx` | Root component, page routing, ThemeProvider + LanguageProvider wrapper |
-| `src/components/GamePage.tsx` | Main game state management and UI |
-| `src/components/CardDisplay.tsx` | Playing card visual rendering |
-| `src/context/ThemeContext.tsx` | ThemeProvider — three-file context pattern (Def / Provider / Hook) |
-| `src/context/LanguageContext.tsx` | LanguageProvider — same three-file pattern as ThemeContext |
