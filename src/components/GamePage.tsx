@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { BookOpen } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
 import { CardDisplay } from './CardDisplay';
+import { RulesModal } from './RulesModal';
 import type { GameState } from '../types';
 import {
   saveGameState,
@@ -18,6 +20,7 @@ export function GamePage() {
     const saved = loadGameState();
     return saved || createInitialGameState();
   });
+  const [showRules, setShowRules] = useState(false);
 
   const { language } = useLanguage();
   const t = translations[language];
@@ -57,14 +60,25 @@ export function GamePage() {
 
       <div className="game-header">
         <h1 className="game-title-small">{t.gameTitle}</h1>
-        <div className="cards-remaining">
-          {t.cardsRemaining}: {cardsRemaining}
+        <div className="game-header-row">
+          <button className="rules-btn" onClick={() => setShowRules(true)}>
+            <BookOpen size={14} color="var(--accent-color)" strokeWidth={2.5} />
+            {t.rules}
+          </button>
+          <div className="cards-remaining">
+            {t.cardsRemaining}: {cardsRemaining}
+          </div>
         </div>
       </div>
 
       <div className="game-content">
         {!currentCard && !isGameOver && (
-          <div className="game-start">
+          <div className="game-start fade-in-up">
+            <div className="card-back-static" onClick={handleDrawCard}>
+              <div className="card-back-corner card-back-corner-tl">♠︎<br />♥︎</div>
+              <span className="card-back-icon">🍺</span>
+              <div className="card-back-corner card-back-corner-br">♣︎<br />♦︎</div>
+            </div>
             <p className="game-instruction">{t.clickToDrawFirst}</p>
             <button className="btn btn-primary btn-large" onClick={handleDrawCard}>
               {t.drawCard}
@@ -73,7 +87,7 @@ export function GamePage() {
         )}
 
         {currentCard && (
-          <div className="card-section">
+          <div key={currentCard.id} className="card-section fade-in-up">
             <CardDisplay card={currentCard} />
 
             <div className="card-rule">
@@ -90,7 +104,7 @@ export function GamePage() {
         )}
 
         {isGameOver && (
-          <div className="game-over">
+          <div className="game-over fade-in-up">
             <h2 className="game-over-title">{t.gameOver}</h2>
             <p className="game-over-text">{t.allCardsDrawn}</p>
           </div>
@@ -114,6 +128,10 @@ export function GamePage() {
           )}
         </div>
       </div>
+
+      {showRules && (
+        <RulesModal onClose={() => setShowRules(false)} showStartButton={false} />
+      )}
     </div>
   );
 }
