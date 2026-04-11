@@ -38,10 +38,10 @@ export function drawRandomCard(deck: Card[]): { card: Card; remainingDeck: Card[
 
 export function getSuitSymbol(suit: Suit): string {
   const symbols: Record<Suit, string> = {
-    hearts: '♥',
-    diamonds: '♦',
-    clubs: '♣',
-    spades: '♠'
+    hearts: '♥︎',
+    diamonds: '♦︎',
+    clubs: '♣︎',
+    spades: '♠︎'
   };
   return symbols[suit];
 }
