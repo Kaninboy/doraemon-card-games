@@ -1,22 +1,13 @@
 import type { Page } from '@playwright/test';
 
 const STATE_KEY = 'doraemon-card-game-state';
-const LANG_KEY = 'doraemon-card-game-language';
-const THEME_KEY = 'doraemon-card-game-theme';
 
 /**
- * Clear all game-related localStorage keys.
+ * Clear all localStorage for the page's origin.
  * Must be called AFTER navigating to a page (origin must exist).
  */
 export async function clearState(page: Page): Promise<void> {
-  await page.evaluate(
-    ({ stateKey, langKey, themeKey }) => {
-      localStorage.removeItem(stateKey);
-      localStorage.removeItem(langKey);
-      localStorage.removeItem(themeKey);
-    },
-    { stateKey: STATE_KEY, langKey: LANG_KEY, themeKey: THEME_KEY }
-  );
+  await page.evaluate(() => localStorage.clear());
 }
 
 /**
@@ -30,13 +21,13 @@ export async function startGame(page: Page): Promise<void> {
 }
 
 /**
- * Click the draw button N times. Uses "Draw Card" for the first click
- * and "Draw Next Card" for subsequent clicks.
+ * Click the draw button N times. The button label is "Draw Card" before any
+ * card has been drawn and "Draw Next Card" after — the regex matches both
+ * so this helper works regardless of starting state.
  */
 export async function drawCards(page: Page, count: number): Promise<void> {
   for (let i = 0; i < count; i++) {
-    const buttonName = i === 0 ? 'Draw Card' : 'Draw Next Card';
-    await page.getByRole('button', { name: buttonName }).click();
+    await page.getByRole('button', { name: /^Draw (Next )?Card$/ }).click();
   }
 }
 
